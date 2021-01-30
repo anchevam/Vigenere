@@ -1,3 +1,5 @@
+import math
+
 alpha = {
     'a':0,
     'b':1,
@@ -74,7 +76,8 @@ x = math.ceil(x)
 key = key*x
 
 #Create a function to repeat the key string enough times to cover the message
-import math
+# The length of the key string must match the length of the message
+
 def expandkey(key,message):
     x = len(message)/len(key)
     x = math.ceil(x)
@@ -84,33 +87,41 @@ def expandkey(key,message):
 
 
 #Encode the key and the message to numeric values
-        
+
 def encode(message,key):
     message_num = []
     for i in range(0,len(message)):
-        a = message[i]
-        b = alpha.get(a)
-        message_num.append(b)
-        print(message_num)
-        key_num = []
-    for j in range(0,len(message)):
-        d = key[j]
-        e = alpha.get(d)
-        key_num.append(e)
-        print(key_num)
-        cipher_num = []
-    for k in range(0,len(message)):
-        c = key_num[k] + message_num[k]
-        c = mod(c)
-        cipher_num.append(c)
-        print(cipher_num)
-        cipher = []
-    for l in range(0,len(message)):
-        a = cipher_num[l]
-        b = num.get(a)
-        cipher.append(b)
-    cipher = ''.join(cipher)
-    print(cipher)
+        message_num.append(alpha[message[i]])
+
+
+
+        
+# def encode(message,key):
+#     message_num = []
+#     for i in range(0,len(message)):
+#         a = message[i]
+#         b = alpha.get(a)
+#         message_num.append(b)
+#         print(message_num)
+#         key_num = []
+#     for j in range(0,len(message)):
+#         d = key[j]
+#         e = alpha.get(d)
+#         key_num.append(e)
+#         print(key_num)
+#         cipher_num = []
+#     for k in range(0,len(message)):
+#         c = key_num[k] + message_num[k]
+#         c = mod(c)
+#         cipher_num.append(c)
+#         print(cipher_num)
+#         cipher = []
+#     for l in range(0,len(message)):
+#         a = cipher_num[l]
+#         b = num.get(a)
+#         cipher.append(b)
+#     cipher = ''.join(cipher)
+#     print(cipher)
 
 def decode(cipher,key):
     cipher_num = []
@@ -139,6 +150,17 @@ def decode(cipher,key):
     message = ''.join(message)
     print(message)
 
-    
+if __name__ == "__main__":
+    process = input("1) Encode or 2) Decode")
+    if process == '1':
+        message = input("What is your message?")
+        key = input("What is the key?")
+        print(encode(message, key))
+    elif process == '2':
+        cipher = input("What is your cipher?")
+        key = input("What is the key?")
+        print(ecode(cipher, key))
+    else:
+        print("Please selection option 1 or 2")
     
 
