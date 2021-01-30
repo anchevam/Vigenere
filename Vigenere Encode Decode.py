@@ -1,3 +1,5 @@
+import math
+
 alpha = {
     'a':0,
     'b':1,
@@ -64,81 +66,67 @@ def mod(x):
         y = x
     return y
 
-#Define working variables: key and message (to be encoded)
-message = 'thisisamessage'
-key = 'key'
-cipher = 'dlgcmqkqccwyqi'
-
 x = len(message)/len(key)
 x = math.ceil(x)
 key = key*x
 
 #Create a function to repeat the key string enough times to cover the message
-import math
+# The length of the key string must match the length of the message
+
 def expandkey(key,message):
     x = len(message)/len(key)
     x = math.ceil(x)
     key = key*x
-    print(key)
-
+    return(key)
 
 
 #Encode the key and the message to numeric values
-        
+
 def encode(message,key):
     message_num = []
-    for i in range(0,len(message)):
-        a = message[i]
-        b = alpha.get(a)
-        message_num.append(b)
-        print(message_num)
-        key_num = []
-    for j in range(0,len(message)):
-        d = key[j]
-        e = alpha.get(d)
-        key_num.append(e)
-        print(key_num)
-        cipher_num = []
-    for k in range(0,len(message)):
-        c = key_num[k] + message_num[k]
-        c = mod(c)
-        cipher_num.append(c)
-        print(cipher_num)
-        cipher = []
-    for l in range(0,len(message)):
-        a = cipher_num[l]
-        b = num.get(a)
-        cipher.append(b)
+    key_num = []
+    cipher_num = []
+    cipher = []
+    for i in range(0,len(message)): # Iterate through each letter in the key and message
+        message_num.append(alpha[message[i]])  # Use each letter as the key to get the value from the alpha dictionary
+        key_num.append(alpha[key[i]])
+        combined_num = message_num[i] + key_num[i] # Combine the message number and key number at the given index
+        cipher_num.append(mod(combined_num)) # Apply the mod function to stay within the dictionary values
+        cipher.append(num[cipher_num[i]])
     cipher = ''.join(cipher)
     print(cipher)
 
+
+
 def decode(cipher,key):
+    message_num = []
+    key_num = []
     cipher_num = []
-    for i in range(0,len(cipher)):
-        a = cipher[i]
-        b = alpha.get(a)
-        cipher_num.append(b)
-        print(cipher_num)
-        key_num = []
-    for j in range(0,len(cipher)):
-        d = key[j]
-        e = alpha.get(d)
-        key_num.append(e)
-        print(key_num)
-        message_num = []
-    for k in range(0,len(cipher)):
-        m = cipher_num[k] - key_num[k]
-        m = mod(m)
-        message_num.append(m)
-        print(cipher_num)
-        message = []
-    for l in range(0,len(cipher)):
-        a = message_num[l]
-        b = num.get(a)
-        message.append(b)
+    message = []
+    for i in range(0,len(cipher)): # Iterate through each letter in the key and cipher
+        cipher_num.append(alpha[cipher[i]])  # Use each letter as the key to get the value from the alpha dictionary
+        key_num.append(alpha[key[i]])
+        combined_num = cipher_num[i] - key_num[i] # Combine the message number and key number at the given index
+        message_num.append(mod(combined_num)) # Apply the mod function to stay within the dictionary values
+        message.append(num[message_num[i]])
     message = ''.join(message)
     print(message)
 
-    
-    
-
+if __name__ == "__main__":
+    running = True
+while running:
+    process = input("1) Encode or 2) Decode 3) Exit")
+    if process == '1':
+        message = input("Enter message (characters only--no spaces):")
+        key = input("Enter key (characters only--no spaces):")
+        key = expandkey(key, message)
+        print(encode(message, key))
+    elif process == '2':
+        cipher = input("Enter cipher (characters only--no spaces):")
+        key = input("Enter key (characters only--no spaces):")
+        key = expandkey(key, message)
+        print(decode(cipher, key))
+    elif process == '3':
+        running = False
+    else:
+        print("Command not recognised")
