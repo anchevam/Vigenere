@@ -82,46 +82,26 @@ def expandkey(key,message):
     x = len(message)/len(key)
     x = math.ceil(x)
     key = key*x
-    print(key)
+    return(key)
 
-
+key = expandkey(key,message)
 
 #Encode the key and the message to numeric values
 
 def encode(message,key):
     message_num = []
-    for i in range(0,len(message)):
-        message_num.append(alpha[message[i]])
+    key_num = []
+    cipher_num = []
+    cipher = []
+    for i in range(0,len(message)): # Iterate through each letter in the key and message
+        message_num.append(alpha[message[i]])  # Use each letter as the key to get the value from the alpha dictionary
+        key_num.append(alpha[key[i]])
+        combined_num = message_num[i] + key_num[i] # Combine the message number and key number at the given index
+        cipher_num.append(mod(combined_num)) # Apply the mod function to stay within the dictionary values
+        cipher.append(num[cipher_num[i]])
+    cipher = ''.join(cipher)
+    print(cipher)
 
-
-
-        
-# def encode(message,key):
-#     message_num = []
-#     for i in range(0,len(message)):
-#         a = message[i]
-#         b = alpha.get(a)
-#         message_num.append(b)
-#         print(message_num)
-#         key_num = []
-#     for j in range(0,len(message)):
-#         d = key[j]
-#         e = alpha.get(d)
-#         key_num.append(e)
-#         print(key_num)
-#         cipher_num = []
-#     for k in range(0,len(message)):
-#         c = key_num[k] + message_num[k]
-#         c = mod(c)
-#         cipher_num.append(c)
-#         print(cipher_num)
-#         cipher = []
-#     for l in range(0,len(message)):
-#         a = cipher_num[l]
-#         b = num.get(a)
-#         cipher.append(b)
-#     cipher = ''.join(cipher)
-#     print(cipher)
 
 def decode(cipher,key):
     cipher_num = []
