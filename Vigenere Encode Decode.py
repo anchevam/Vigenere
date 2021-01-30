@@ -66,11 +66,6 @@ def mod(x):
         y = x
     return y
 
-#Define working variables: key and message (to be encoded)
-message = 'thisisamessage'
-key = 'key'
-cipher = 'dlgcmqkqccwyqi'
-
 x = len(message)/len(key)
 x = math.ceil(x)
 key = key*x
@@ -84,7 +79,6 @@ def expandkey(key,message):
     key = key*x
     return(key)
 
-key = expandkey(key,message)
 
 #Encode the key and the message to numeric values
 
@@ -103,44 +97,36 @@ def encode(message,key):
     print(cipher)
 
 
+
 def decode(cipher,key):
+    message_num = []
+    key_num = []
     cipher_num = []
-    for i in range(0,len(cipher)):
-        a = cipher[i]
-        b = alpha.get(a)
-        cipher_num.append(b)
-        print(cipher_num)
-        key_num = []
-    for j in range(0,len(cipher)):
-        d = key[j]
-        e = alpha.get(d)
-        key_num.append(e)
-        print(key_num)
-        message_num = []
-    for k in range(0,len(cipher)):
-        m = cipher_num[k] - key_num[k]
-        m = mod(m)
-        message_num.append(m)
-        print(cipher_num)
-        message = []
-    for l in range(0,len(cipher)):
-        a = message_num[l]
-        b = num.get(a)
-        message.append(b)
+    message = []
+    for i in range(0,len(cipher)): # Iterate through each letter in the key and cipher
+        cipher_num.append(alpha[cipher[i]])  # Use each letter as the key to get the value from the alpha dictionary
+        key_num.append(alpha[key[i]])
+        combined_num = cipher_num[i] - key_num[i] # Combine the message number and key number at the given index
+        message_num.append(mod(combined_num)) # Apply the mod function to stay within the dictionary values
+        message.append(num[message_num[i]])
     message = ''.join(message)
     print(message)
 
 if __name__ == "__main__":
-    process = input("1) Encode or 2) Decode")
+    running = True
+while running:
+    process = input("1) Encode or 2) Decode 3) Exit")
     if process == '1':
-        message = input("What is your message?")
-        key = input("What is the key?")
+        message = input("Enter message (characters only--no spaces):")
+        key = input("Enter key (characters only--no spaces):")
+        key = expandkey(key, message)
         print(encode(message, key))
     elif process == '2':
-        cipher = input("What is your cipher?")
-        key = input("What is the key?")
-        print(ecode(cipher, key))
+        cipher = input("Enter cipher (characters only--no spaces):")
+        key = input("Enter key (characters only--no spaces):")
+        key = expandkey(key, message)
+        print(decode(cipher, key))
+    elif process == '3':
+        running = False
     else:
-        print("Please selection option 1 or 2")
-    
-
+        print("Command not recognised")
